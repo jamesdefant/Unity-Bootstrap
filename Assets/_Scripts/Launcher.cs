@@ -1,0 +1,93 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityAtoms.BaseAtoms;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+namespace Com.SoulSki.Game
+{
+
+    public class Launcher : MonoBehaviour
+    {
+        const string LAUNCHER_SCENE = "LauncherScene";
+        const string GAME_SCENE = "GameScene";
+
+        [SerializeField] GameObject _menu;
+        [SerializeField] GameObject _menuButton;
+        [SerializeField] GameObject _settingsButton;
+        [SerializeField] GameObject _quitToLauncherButton;
+
+
+        [SerializeField] VoidEvent _evt_initializeGame;
+
+        [SerializeField] MultiplayerGameManager _gameManagerReference;
+        IGameManager _gameManager;
+
+        void Awake()
+        {
+            _gameManager = _gameManagerReference;
+
+            if(SceneManager.GetActiveScene() == SceneManager.GetSceneByName(LAUNCHER_SCENE))
+            {                
+                _menu.SetActive(true);
+                _menuButton.SetActive(false);
+                _settingsButton.SetActive(true);
+                _quitToLauncherButton.SetActive(false);
+            }
+            else
+            {
+                _menu.SetActive(false);
+                _menuButton.SetActive(true);
+                _settingsButton.SetActive(false);
+                _quitToLauncherButton.SetActive(true);
+            }
+        }
+
+        public void StartGame()
+        {
+            Debug.Log("Start Game");
+            _gameManager.InitializeGame();
+
+            ChangeScene(GAME_SCENE);
+
+        }
+
+        public void OpenGameSettings()
+        {
+            Debug.Log("Open Game Settings menu");
+        }
+
+        public void OpenLauncherPanel()
+        {
+            Debug.Log("Open Launcher menu");
+            _menu.SetActive(true);
+        }
+
+        public void QuitToLauncher()
+        {
+            ChangeScene(LAUNCHER_SCENE);
+        }
+        public void QuitToDesktop()
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+        }
+
+
+
+        void ChangeScene(string sceneName)
+        {
+            string scenePath = "Assets/Scenes/" + sceneName + ".unity";
+
+            //Debug.AssertFormat(SceneUtility.GetBuildIndexByScenePath(scenePath) != -1,
+            //    "Scene - {0} is absent from build. Add it to Project Settings", sceneName);
+
+            //SceneManager.LoadScene(sceneName);
+
+            if (SceneUtility.GetBuildIndexByScenePath(scenePath) == -1)
+                Debug.LogFormat("Scene - {0} is absent from build. " +
+                    "Add it to Project Settings", sceneName);
+            else
+                SceneManager.LoadScene(sceneName);
+        }
+    }
+}
