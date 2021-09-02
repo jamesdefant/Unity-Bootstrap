@@ -13,7 +13,7 @@ namespace Com.SoulSki.SFX
         }
         public void PlayMouserOverButton()
         {
-            _audioSource.PlayOneShot(_mouseOverButtonClip);
+            _audioSource.PlayOneShot(_mouseOverButtonClip, 0.3f);
         }
     }
 }

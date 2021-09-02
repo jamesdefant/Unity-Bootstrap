@@ -13,9 +13,11 @@ namespace Com.SoulSki.Game
         const string GAME_SCENE = "GameScene";
 
         [SerializeField] GameObject _menu;
+
         [SerializeField] GameObject _menuButton;
         [SerializeField] GameObject _settingsButton;
         [SerializeField] GameObject _quitToLauncherButton;
+        [SerializeField] GameObject _cancelButton;
 
 
         [SerializeField] VoidEvent _evt_initializeGame;
@@ -33,6 +35,7 @@ namespace Com.SoulSki.Game
                 _menuButton.SetActive(false);
                 _settingsButton.SetActive(true);
                 _quitToLauncherButton.SetActive(false);
+                _cancelButton.SetActive(false);
             }
             else
             {
@@ -40,6 +43,8 @@ namespace Com.SoulSki.Game
                 _menuButton.SetActive(true);
                 _settingsButton.SetActive(false);
                 _quitToLauncherButton.SetActive(true);
+                _cancelButton.SetActive(true);
+
             }
         }
 
@@ -49,7 +54,6 @@ namespace Com.SoulSki.Game
             _gameManager.InitializeGame();
 
             ChangeScene(GAME_SCENE);
-
         }
 
         public void OpenGameSettings()
@@ -61,6 +65,12 @@ namespace Com.SoulSki.Game
         {
             Debug.Log("Open Launcher menu");
             _menu.SetActive(true);
+        }
+        public void ToggleLauncherPanel(bool show)
+        {
+            string msg = show ? "Open" : "Close";
+            Debug.Log(msg + " Launcher menu");
+            _menu.SetActive(show);
         }
 
         public void QuitToLauncher()
