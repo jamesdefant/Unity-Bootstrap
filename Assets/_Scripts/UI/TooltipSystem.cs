@@ -4,8 +4,8 @@ namespace Com.SoulSki.UI
 {
     public class TooltipSystem : MonoBehaviour
     {
-        const float FADE_IN_TIME = 0.2f;
-        const float FADE_OUT_TIME = 0.1f;
+        [SerializeField] float _fadeInTime = 0.2f;
+        [SerializeField] float _fadeOutTime = 0.1f;
 
         private static TooltipSystem _current;
 
@@ -23,11 +23,13 @@ namespace Com.SoulSki.UI
         {
             _current._tooltip.SetText(content, header);
 
-            LeanTween.alphaCanvas(_current._canvasGroup, 1, FADE_IN_TIME);
+            LeanTween.alphaCanvas(_current._canvasGroup, 1, _current._fadeInTime);
+
+
         }
         public static void Hide()
         {
-            LeanTween.alphaCanvas(_current._canvasGroup, 0, FADE_OUT_TIME);
+            LeanTween.alphaCanvas(_current._canvasGroup, 0, _current._fadeOutTime);
         }
     }
 }
