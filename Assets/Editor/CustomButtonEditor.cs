@@ -7,6 +7,7 @@ using UnityEditor.UI;
 namespace Com.SoulSki.UI.Editor
 {
     [CustomEditor(typeof(CustomButton))]
+    [CanEditMultipleObjects]
     public class CustomButtonEditor : ButtonEditor
     {
         public override void OnInspectorGUI()

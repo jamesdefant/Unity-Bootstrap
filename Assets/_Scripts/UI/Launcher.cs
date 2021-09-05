@@ -13,6 +13,7 @@ namespace Com.SoulSki.Game
         const string GAME_SCENE = "GameScene";
 
         [SerializeField] GameObject _menu;
+        [SerializeField] GameObject _settingsMenu;
 
         [SerializeField] GameObject _menuButton;
         [SerializeField] GameObject _settingsButton;
@@ -32,6 +33,8 @@ namespace Com.SoulSki.Game
             if(SceneManager.GetActiveScene() == SceneManager.GetSceneByName(LAUNCHER_SCENE))
             {                
                 _menu.SetActive(true);
+                _settingsMenu.SetActive(false);
+
                 _menuButton.SetActive(false);
                 _settingsButton.SetActive(true);
                 _quitToLauncherButton.SetActive(false);
@@ -40,11 +43,12 @@ namespace Com.SoulSki.Game
             else
             {
                 _menu.SetActive(false);
+                _settingsMenu.SetActive(false);
+
                 _menuButton.SetActive(true);
                 _settingsButton.SetActive(false);
                 _quitToLauncherButton.SetActive(true);
                 _cancelButton.SetActive(true);
-
             }
         }
 
@@ -56,16 +60,19 @@ namespace Com.SoulSki.Game
             ChangeScene(GAME_SCENE);
         }
 
-        public void OpenGameSettings()
+        public void ToggleSettingsPanel(bool show)
         {
-            Debug.Log("Open Game Settings menu");
+            string msg = show ? "Open" : "Close";
+            Debug.Log(msg + " Game Settings menu");
+
+            _settingsMenu.SetActive(show);
         }
 
-        public void OpenLauncherPanel()
-        {
-            Debug.Log("Open Launcher menu");
-            _menu.SetActive(true);
-        }
+        //public void OpenLauncherPanel()
+        //{
+        //    Debug.Log("Open Launcher menu");
+        //    _menu.SetActive(true);
+        //}
         public void ToggleLauncherPanel(bool show)
         {
             string msg = show ? "Open" : "Close";
