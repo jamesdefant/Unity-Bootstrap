@@ -12,10 +12,11 @@ namespace Com.SoulSki.Game
         const string LAUNCHER_SCENE = "LauncherScene";
         const string GAME_SCENE = "GameScene";
 
-        [SerializeField] GameObject _menu;
+        [SerializeField] GameObject _blocker;       // Menu parent
         [SerializeField] GameObject _settingsMenu;
 
-        [SerializeField] GameObject _menuButton;
+        [SerializeField] GameObject _launcherMenuButton;
+        [SerializeField] GameObject _startGameButton;
         [SerializeField] GameObject _settingsButton;
         [SerializeField] GameObject _quitToLauncherButton;
         [SerializeField] GameObject _cancelButton;
@@ -31,21 +32,23 @@ namespace Com.SoulSki.Game
             _gameManager = _gameManagerReference;
 
             if(SceneManager.GetActiveScene() == SceneManager.GetSceneByName(LAUNCHER_SCENE))
-            {                
-                _menu.SetActive(true);
+            {
+                _blocker.SetActive(true);
                 _settingsMenu.SetActive(false);
 
-                _menuButton.SetActive(false);
+                _launcherMenuButton.SetActive(false);
+                _startGameButton.SetActive(true);
                 _settingsButton.SetActive(true);
                 _quitToLauncherButton.SetActive(false);
                 _cancelButton.SetActive(false);
             }
             else
             {
-                _menu.SetActive(false);
+                _blocker.SetActive(false);
                 _settingsMenu.SetActive(false);
 
-                _menuButton.SetActive(true);
+                _launcherMenuButton.SetActive(true);
+                _startGameButton.SetActive(false);
                 _settingsButton.SetActive(false);
                 _quitToLauncherButton.SetActive(true);
                 _cancelButton.SetActive(true);
@@ -77,7 +80,7 @@ namespace Com.SoulSki.Game
         {
             string msg = show ? "Open" : "Close";
             Debug.Log(msg + " Launcher menu");
-            _menu.SetActive(show);
+            _blocker.SetActive(show);
         }
 
         public void QuitToLauncher()
