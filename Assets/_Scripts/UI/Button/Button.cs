@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
@@ -9,6 +10,7 @@ using Com.SoulSki.Game;
 namespace Com.SoulSki.UI
 {
     [ExecuteInEditMode]
+    [AddComponentMenu("SoulSki_UI/Button")]
     public class Button : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, 
                           IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
@@ -242,6 +244,7 @@ namespace Com.SoulSki.UI
                 yield return null;
             }
         }
+
         #endregion
     }
 }

@@ -58,15 +58,17 @@ namespace Com.SoulSki.Game
 
         void Awake()
         {
-            if (Instance != null) return;
+            //if (Instance != null) return;
             Instance = this;
 
             _gameManager = _gameManagerReference;
 
-            if(SceneManager.GetActiveScene() == SceneManager.GetSceneByName(LAUNCHER_SCENE))
+            _settingsMenu.transform.localScale = new Vector3(0f, 0f);
+
+            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName(LAUNCHER_SCENE))
             {
                 _menu.SetActive(true);
-                _settingsMenu.SetActive(false);
+//                _settingsMenu.SetActive(false);
 
                 _launcherMenuButton.SetActive(false);
                 _startGameButton.SetActive(true);
@@ -76,8 +78,9 @@ namespace Com.SoulSki.Game
             }
             else
             {
-                _menu.SetActive(false);
-                _settingsMenu.SetActive(false);
+                _menu.transform.localScale = new Vector3(0f, 0f);
+//                _menu.SetActive(false);
+//                _settingsMenu.SetActive(false);
 
                 _launcherMenuButton.SetActive(true);
                 _startGameButton.SetActive(false);
@@ -85,6 +88,8 @@ namespace Com.SoulSki.Game
                 _quitToLauncherButton.SetActive(true);
                 _cancelButton.SetActive(true);
             }
+
+
         }
 
         #endregion
@@ -105,14 +110,34 @@ namespace Com.SoulSki.Game
             string msg = show ? "Open" : "Close";
             Debug.Log(msg + " Game Settings menu");
 
-            _settingsMenu.SetActive(show);
+            //Vector3 start = show ? new Vector3(0f, 0f, 0f) : new Vector3(1f, 1f, 1f);
+            //Vector3 end = show ? new Vector3(1f, 1f, 1f) : new Vector3(0f, 0f, 0f);
+
+            var scale = GetScale(show);
+
+            LeanTween.value(_settingsMenu, scale.start, scale.end, 0.1f).setOnUpdate(
+            (Vector3 newScale) => {
+                _settingsMenu.transform.localScale = newScale;
+                }
+            );
+//            _settingsMenu.SetActive(show);
         }
+
+
 
         public void ToggleLauncherPanel(bool show)
         {
             string msg = show ? "Open" : "Close";
             Debug.Log(msg + " Launcher menu");
-            _menu.SetActive(show);
+
+            var scale = GetScale(show);
+
+            LeanTween.value(_settingsMenu, scale.start, scale.end, 0.1f).setOnUpdate(
+            (Vector3 newScale) => {
+                _menu.transform.localScale = newScale;
+            });
+
+//            _menu.SetActive(show);
         }
 
         public void QuitToLauncher()
@@ -143,6 +168,14 @@ namespace Com.SoulSki.Game
                     "Add it to Project Settings", sceneName);
             else
                 SceneManager.LoadScene(sceneName);
+        }
+
+        (Vector3 start, Vector3 end) GetScale(bool show)
+        {
+            Vector3 start = show ? new Vector3(0f, 0f, 0f) : new Vector3(1f, 1f, 1f);
+            Vector3 end = show ? new Vector3(1f, 1f, 1f) : new Vector3(0f, 0f, 0f);
+
+            return (start, end);
         }
 
         #endregion

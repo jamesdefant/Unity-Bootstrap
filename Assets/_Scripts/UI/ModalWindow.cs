@@ -10,7 +10,7 @@ namespace Com.SoulSki.UI
         #region Fields
         //-----------------------------------------------
 
-        [SerializeField] Transform _box;
+        [SerializeField] Transform _modalPanel;
 
         [Header("Header")]
         [SerializeField] Transform _headerArea;
@@ -86,22 +86,12 @@ namespace Com.SoulSki.UI
             _iconImage.sprite = imageToShow;
             _iconText.text = message;
 
-            _onConfirmCallback = confirmAction;
-            _confirmText.text = confirmMessage;
-
-            bool hasDecline = declineAction != null;
-            _declineText.text = declineMessage;
-            _declineButton.gameObject.SetActive(hasDecline);
-            _onDeclineCallback = declineAction;
-
-            bool hasAlternate = alternateAction != null;
-            _alternateButton.gameObject.SetActive(hasAlternate);
-            _onAlternateCallback = alternateAction;
-
-            Show();
+            ShowModalCommon(confirmMessage, declineMessage, confirmAction, declineAction, alternateAction);
         }
 
-        public void ShowAsDialog(string title, string message, string confirmMessage, string declineMessage, Action confirmAction, Action declineAction, Action alternateAction = null)
+        public void ShowAsDialog(string title, string message, string confirmMessage, 
+                                string declineMessage, Action confirmAction, 
+                                Action declineAction, Action alternateAction = null)
         {
             Debug.Log("ModalWindowPanel::ShowAsDialog()");
 
@@ -116,19 +106,7 @@ namespace Com.SoulSki.UI
 
             _iconText.text = message;
 
-            _onConfirmCallback = confirmAction;
-            _confirmText.text = confirmMessage;
-
-            bool hasDecline = declineAction != null;
-            _declineText.text = declineMessage;
-            _declineButton.gameObject.SetActive(hasDecline);
-            _onDeclineCallback = declineAction;
-
-            bool hasAlternate = alternateAction != null;
-            _alternateButton.gameObject.SetActive(hasAlternate);
-            _onAlternateCallback = alternateAction;
-
-            Show();
+            ShowModalCommon(confirmMessage, declineMessage, confirmAction, declineAction, alternateAction);         
         }
 
         #endregion
@@ -136,7 +114,10 @@ namespace Com.SoulSki.UI
         #region Private Methods
         //-----------------------------------------------
 
-        private void ShowAsHero(string title, Sprite imageToShow, string message, string confirmMessage, string declineMessage, Action confirmAction, Action declineAction, Action alternateAction = null)
+        private void ShowAsHero(string title, Sprite imageToShow, string message, 
+                                string confirmMessage, string declineMessage, 
+                                Action confirmAction, Action declineAction, 
+                                Action alternateAction = null)
         {
             Debug.Log("ModalWindowPanel::ShowAsHero()");
 
@@ -150,6 +131,13 @@ namespace Com.SoulSki.UI
             _heroImage.sprite = imageToShow;
             _heroText.text = message;
 
+            ShowModalCommon(confirmMessage, declineMessage, confirmAction, declineAction, alternateAction);
+        }
+
+        private void ShowModalCommon(string confirmMessage, string declineMessage, 
+                                    Action confirmAction, Action declineAction, 
+                                    Action alternateAction = null)
+        {
             _onConfirmCallback = confirmAction;
             _confirmText.text = confirmMessage;
 
@@ -167,12 +155,12 @@ namespace Com.SoulSki.UI
 
         private void Show()
         {
-            _box.gameObject.SetActive(true);
+            _modalPanel.gameObject.SetActive(true);
         }
 
         private void Close()
         {
-            _box.gameObject.SetActive(false);
+            _modalPanel.gameObject.SetActive(false);
         }
 
         #endregion
