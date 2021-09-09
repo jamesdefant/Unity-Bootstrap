@@ -5,7 +5,7 @@ namespace Com.SoulSki.UI
 {
     public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        const float DELAY_TIME = 0.5f;
+        const float DELAY_TIME = 1f;
 
         private static LTDescr _delay;
         [SerializeField] string _header; 

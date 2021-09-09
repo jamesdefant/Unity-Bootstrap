@@ -1,18 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityAtoms.BaseAtoms;
+﻿using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Com.SoulSki.Game
 {
-
-    public class Launcher : MonoBehaviour
+    public interface ILauncher
     {
+        void StartGame();
+        void ToggleSettingsPanel(bool show);
+        void ToggleLauncherPanel(bool show);
+        void QuitToLauncher();
+        void QuitToDesktop();
+    }
+    public class Launcher : MonoBehaviour, ILauncher
+    {
+        #region Constants
+        //-----------------------------------------------
+
         const string LAUNCHER_SCENE = "LauncherScene";
         const string GAME_SCENE = "GameScene";
 
-        [SerializeField] GameObject _blocker;       // Menu parent
+        #endregion
+
+        #region Fields
+        //-----------------------------------------------
+
+        [SerializeField] GameObject _menu;       // Menu parent
         [SerializeField] GameObject _settingsMenu;
 
         [SerializeField] GameObject _launcherMenuButton;
@@ -21,19 +34,28 @@ namespace Com.SoulSki.Game
         [SerializeField] GameObject _quitToLauncherButton;
         [SerializeField] GameObject _cancelButton;
 
-
         [SerializeField] VoidEvent _evt_initializeGame;
 
         [SerializeField] MultiplayerGameManager _gameManagerReference;
         IGameManager _gameManager;
 
+        #endregion
+
+        public static ILauncher Instance; 
+
+        #region Monobehaviour Callbacks
+        //-----------------------------------------------
+
         void Awake()
         {
+            if (Instance != null) return;
+            Instance = this;
+
             _gameManager = _gameManagerReference;
 
             if(SceneManager.GetActiveScene() == SceneManager.GetSceneByName(LAUNCHER_SCENE))
             {
-                _blocker.SetActive(true);
+                _menu.SetActive(true);
                 _settingsMenu.SetActive(false);
 
                 _launcherMenuButton.SetActive(false);
@@ -44,7 +66,7 @@ namespace Com.SoulSki.Game
             }
             else
             {
-                _blocker.SetActive(false);
+                _menu.SetActive(false);
                 _settingsMenu.SetActive(false);
 
                 _launcherMenuButton.SetActive(true);
@@ -54,6 +76,11 @@ namespace Com.SoulSki.Game
                 _cancelButton.SetActive(true);
             }
         }
+
+        #endregion
+
+        #region Public Methods
+        //-----------------------------------------------
 
         public void StartGame()
         {
@@ -71,16 +98,11 @@ namespace Com.SoulSki.Game
             _settingsMenu.SetActive(show);
         }
 
-        //public void OpenLauncherPanel()
-        //{
-        //    Debug.Log("Open Launcher menu");
-        //    _menu.SetActive(true);
-        //}
         public void ToggleLauncherPanel(bool show)
         {
             string msg = show ? "Open" : "Close";
             Debug.Log(msg + " Launcher menu");
-            _blocker.SetActive(show);
+            _menu.SetActive(show);
         }
 
         public void QuitToLauncher()
@@ -92,7 +114,10 @@ namespace Com.SoulSki.Game
             UnityEditor.EditorApplication.isPlaying = false;
         }
 
+        #endregion
 
+        #region Private Methods
+        //-----------------------------------------------
 
         void ChangeScene(string sceneName)
         {
@@ -109,5 +134,7 @@ namespace Com.SoulSki.Game
             else
                 SceneManager.LoadScene(sceneName);
         }
+
+        #endregion
     }
 }

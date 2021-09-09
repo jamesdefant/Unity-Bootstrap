@@ -1,9 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using TMPro;
+using Com.SoulSki.Game;
 
 namespace Com.SoulSki.UI
 {
@@ -14,12 +15,17 @@ namespace Com.SoulSki.UI
 
         #region Fields
         //-----------------------------------------------
+        [SerializeField] bool _interactable = true;
+
         [Header("Button State Colors")]
         [SerializeField] Color _normalColor = Color.white;
         [SerializeField] Color _highlightedColor = Color.white;
         [SerializeField] Color _pressedColor = Color.grey;
         [SerializeField] Color _selectedColor = Color.black;
         [SerializeField] Color _disabledColor = Color.grey;
+        [Space()]
+        [SerializeField] Color _normalTextColor = Color.white;
+        [SerializeField] Color _selectedTextColor = Color.black;
 
         [Space()]
         [SerializeField] float _fadeDuration = 0.2f;
@@ -29,49 +35,122 @@ namespace Com.SoulSki.UI
         [SerializeField] UnityEvent _onMouseEnter;
 
         bool _isSelected;
-
-
         Image _image;
+        TextMeshProUGUI _text;
+        bool _isTextColorUnique;
+
 
         #endregion
+
+        #region Properties
+        //-----------------------------------------------
+
+        public bool Interactable
+        {
+            get => _interactable;
+            set 
+            {
+                _image.color = (value == false) ? _disabledColor : _normalColor;
+                _interactable = value;
+            }
+        }
+        public Color NormalColor
+        {
+            get => _normalColor;
+            set => _normalColor = value;
+        }
+        public Color HighlightedColor
+        {
+            get => _highlightedColor;
+            set => _highlightedColor = value;
+        }
+        public Color PressedColor
+        {
+            get => _pressedColor;
+            set => _pressedColor = value;
+        }
+        public Color SelectedColor
+        {
+            get => _selectedColor;
+            set => _selectedColor = value;
+        }
+        public Color DisabledColor
+        {
+            get => _disabledColor;
+            set => _disabledColor = value;
+        }
+
+        public Color NormalTextColor
+        {
+            get => _normalTextColor;
+            set => _normalTextColor = value;
+        }
+        public Color SelectedTextColor
+        {
+            get => _selectedTextColor;
+            set => _selectedTextColor = value;
+        }
+        #endregion
+
+        #region Monobehaviour Callbacks
+        //-----------------------------------------------
 
         void Awake()
         {
             _image = GetComponent<Image>();
+            _text = GetComponentInChildren<TextMeshProUGUI>();
             _image.color = _normalColor;
+
+            _isTextColorUnique = _normalTextColor != _selectedTextColor;
+            
         }
 
-        public void Select()
+#if UNITY_EDITOR
+        void LateUpdate()
         {
-            StartCoroutine(ChangeToColor(_selectedColor));
-            //_image.color = _selectedColor;
-            _isSelected = true;
+            if (!_interactable)
+            {
+                _image.color = _disabledColor;
+            }
+            else
+            {
+                _image.color = _normalColor;
+            }
         }
-        public void DeSelect()
-        {
-            _image.color = _normalColor;
-            _isSelected = false;
-        }
+#endif
+#endregion
+
+        #region Event Handlers
+        //-----------------------------------------------
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Select();
-            _onClick.Invoke();
+            if (_interactable)
+            {
+                Select();
+                _onClick.Invoke();
+            }
         }
         public void OnPointerDown(PointerEventData eventData)
         {
-            _image.color = _pressedColor;
+            if (_interactable)
+            {
+                StartCoroutine(ChangeToColor(_pressedColor));
+            }
         }
         public void OnPointerUp(PointerEventData eventData)
         {
-            _image.color = _normalColor;
+            if (_interactable)
+            {
+                StartCoroutine(ChangeToColor(_normalColor));
+            }
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (!_isSelected)
+            if (_interactable && !_isSelected)
             {
-                _image.color = _highlightedColor;
+                StartCoroutine(ChangeToColor(_highlightedColor));
 
                 // Callback
                 _onMouseEnter.Invoke();
@@ -80,12 +159,64 @@ namespace Com.SoulSki.UI
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if(!_isSelected)
-                _image.color = _normalColor;
+            if (_interactable && !_isSelected)
+            {
+                StartCoroutine(ChangeToColor(_normalColor));
+            }
         }
 
+        #endregion
 
+        #region Public Methods
+        //-----------------------------------------------
 
+        public void Select()
+        {
+            if (_interactable)
+            {
+                StartCoroutine(ChangeToColor(_selectedColor));
+                if(_isTextColorUnique)
+                    StartCoroutine(ChangeTextColor(_selectedTextColor));
+
+                _isSelected = true;
+            }
+        }
+        public void DeSelect()
+        {
+            if (_interactable)
+            {
+                StartCoroutine(ChangeToColor(_normalColor));
+                if (_isTextColorUnique)
+                    StartCoroutine(ChangeTextColor(_normalTextColor));
+
+                _isSelected = false;
+            }
+        }
+
+        #endregion
+
+        #region Private Methods
+        //-----------------------------------------------
+/*
+        IEnumerator ChangeToColor(Color newColor, Color newTextColor, bool changeText)
+        {
+            Color oldColor = _image.color;
+            Color oldTextColor = _text.color;
+            float elapsedTime = 0f;
+
+            while (elapsedTime < _fadeDuration)
+            {
+                elapsedTime += Time.deltaTime;
+             
+                _image.color = Color.Lerp(oldColor, newColor, elapsedTime / _fadeDuration);
+
+                if(changeText)
+                    _text.color = Color.Lerp(oldTextColor, newTextColor, elapsedTime / _fadeDuration);
+
+                yield return null;
+            }
+        }
+*/
         IEnumerator ChangeToColor(Color newColor)
         {
             Color oldColor = _image.color;
@@ -94,9 +225,23 @@ namespace Com.SoulSki.UI
             while(elapsedTime < _fadeDuration)
             {
                 elapsedTime += Time.deltaTime;
-                _image.color = Color.Lerp(oldColor, newColor, elapsedTime / _fadeDuration);
+                _image.color = Color.Lerp(oldColor, newColor, elapsedTime / _fadeDuration);    
                 yield return null;
             }
         }
+
+        IEnumerator ChangeTextColor(Color newColor)
+        {
+            Color oldColor = _text.color;
+            float elapsedTime = 0f;
+
+            while (elapsedTime < _fadeDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                _text.color = Color.Lerp(oldColor, newColor, elapsedTime / _fadeDuration);
+                yield return null;
+            }
+        }
+        #endregion
     }
 }
