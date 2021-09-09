@@ -99,6 +99,7 @@
     <Compile Include="Assets\_Scripts\UI\CustomButton.cs" />
     <Compile Include="Assets\_Scripts\UI\Input.cs" />
     <Compile Include="Assets\_Scripts\UI\Launcher.cs" />
+    <Compile Include="Assets\_Scripts\UI\ModalWindow.cs" />
     <Compile Include="Assets\_Scripts\UI\TabSystem.cs" />
     <Compile Include="Assets\_Scripts\UI\Tooltip.cs" />
     <Compile Include="Assets\_Scripts\UI\TooltipSystem.cs" />

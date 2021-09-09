@@ -1,4 +1,5 @@
-﻿using UnityAtoms.BaseAtoms;
+﻿using Com.SoulSki.UI;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -39,9 +40,18 @@ namespace Com.SoulSki.Game
         [SerializeField] MultiplayerGameManager _gameManagerReference;
         IGameManager _gameManager;
 
+        [SerializeField] ModalWindow _modalWindow;
+
+        public static ILauncher Instance;
+
         #endregion
 
-        public static ILauncher Instance; 
+        #region Properties
+        //-----------------------------------------------
+
+        public ModalWindow ModalWindow => _modalWindow;
+
+        #endregion
 
         #region Monobehaviour Callbacks
         //-----------------------------------------------
