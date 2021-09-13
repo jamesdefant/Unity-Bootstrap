@@ -26,8 +26,9 @@ namespace Com.SoulSki.Game
         #region Fields
         //-----------------------------------------------
 
-        [SerializeField] GameObject _mainMenu;       // Menu parent
+        [SerializeField] GameObject _mainMenuBlocker;       // Menu parent
         [SerializeField] GameObject _settingsMenu;
+        [SerializeField] GameObject _modalWindowBlocker;
 
         [SerializeField] GameObject _launcherMenuButton;
         [SerializeField] GameObject _startGameButton;
@@ -40,7 +41,7 @@ namespace Com.SoulSki.Game
         [SerializeField] MultiplayerGameManager _gameManagerReference;
         IGameManager _gameManager;
 
-        [SerializeField] ModalWindow _modalWindow;
+        ModalWindow _modalWindow;
 
         public static ILauncher Instance;
 
@@ -62,12 +63,14 @@ namespace Com.SoulSki.Game
             Instance = this;
 
             _gameManager = _gameManagerReference;
+            _modalWindow = GetComponent<ModalWindow>();
 
             _settingsMenu.transform.localScale = new Vector3(0f, 0f);
+            _modalWindowBlocker.SetActive(false);
 
             if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName(LAUNCHER_SCENE))
             {
-                _mainMenu.SetActive(true);
+                _mainMenuBlocker.SetActive(true);
 
                 _launcherMenuButton.SetActive(false);
                 _startGameButton.SetActive(true);
@@ -77,7 +80,7 @@ namespace Com.SoulSki.Game
             }
             else
             {
-                _mainMenu.transform.localScale = new Vector3(0f, 0f);
+                _mainMenuBlocker.transform.localScale = new Vector3(0f, 0f);
 
                 _launcherMenuButton.SetActive(true);
                 _startGameButton.SetActive(false);
@@ -85,8 +88,6 @@ namespace Com.SoulSki.Game
                 _quitToLauncherButton.SetActive(true);
                 _cancelButton.SetActive(true);
             }
-
-
         }
 
         #endregion
@@ -123,11 +124,11 @@ namespace Com.SoulSki.Game
             string msg = show ? "Open" : "Close";
             Debug.Log(msg + " Launcher menu");
 
-            var scale = GetScale(show);
+            var (start, end) = GetScale(show);
 
-            LeanTween.value(_settingsMenu, scale.start, scale.end, 0.1f).setOnUpdate(
+            LeanTween.value(_settingsMenu, start, end, 0.1f).setOnUpdate(
             (Vector3 newScale) => {
-                _mainMenu.transform.localScale = newScale;
+                _mainMenuBlocker.transform.localScale = newScale;
             });
         }
 

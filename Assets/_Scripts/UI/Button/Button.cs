@@ -1,11 +1,9 @@
 ﻿using System.Collections;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using TMPro;
-using Com.SoulSki.Game;
 
 namespace Com.SoulSki.UI
 {
@@ -99,8 +97,8 @@ namespace Com.SoulSki.UI
 
         void Awake()
         {
-            _image = GetComponent<Image>();
             _text = GetComponentInChildren<TextMeshProUGUI>();
+            _image = GetComponent<Image>();
             _image.color = _normalColor;
 
             _isTextColorUnique = _normalTextColor != _selectedTextColor;
@@ -108,17 +106,21 @@ namespace Com.SoulSki.UI
         }
 
 #if UNITY_EDITOR
+
         void LateUpdate()
         {
             if (!_interactable)
             {
                 _image.color = _disabledColor;
             }
+/*
             else
             {
                 _image.color = _normalColor;
             }
+*/
         }
+
 #endif
 #endregion
 

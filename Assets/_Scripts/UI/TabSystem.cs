@@ -56,6 +56,7 @@ namespace Com.SoulSki.UI
             _windows[index].SetActive(true);
         }
 
+
         void HideAll()
         {
             foreach(GameObject go in _windows)

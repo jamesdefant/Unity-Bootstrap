@@ -10,7 +10,7 @@ namespace Com.SoulSki.UI
         #region Fields
         //-----------------------------------------------
 
-        [SerializeField] Transform _modalPanel;
+        [SerializeField] Transform _modalWindowBlocker;
 
         [Header("Header")]
         [SerializeField] Transform _headerArea;
@@ -155,12 +155,12 @@ namespace Com.SoulSki.UI
 
         private void Show()
         {
-            _modalPanel.gameObject.SetActive(true);
+            _modalWindowBlocker.gameObject.SetActive(true);
         }
 
         private void Close()
         {
-            _modalPanel.gameObject.SetActive(false);
+            _modalWindowBlocker.gameObject.SetActive(false);
         }
 
         #endregion
