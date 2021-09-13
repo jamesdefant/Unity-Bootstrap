@@ -26,7 +26,7 @@ namespace Com.SoulSki.Game
         #region Fields
         //-----------------------------------------------
 
-        [SerializeField] GameObject _menu;       // Menu parent
+        [SerializeField] GameObject _mainMenu;       // Menu parent
         [SerializeField] GameObject _settingsMenu;
 
         [SerializeField] GameObject _launcherMenuButton;
@@ -35,7 +35,7 @@ namespace Com.SoulSki.Game
         [SerializeField] GameObject _quitToLauncherButton;
         [SerializeField] GameObject _cancelButton;
 
-        [SerializeField] VoidEvent _evt_initializeGame;
+        //[SerializeField] VoidEvent _evt_initializeGame;
 
         [SerializeField] MultiplayerGameManager _gameManagerReference;
         IGameManager _gameManager;
@@ -67,8 +67,7 @@ namespace Com.SoulSki.Game
 
             if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName(LAUNCHER_SCENE))
             {
-                _menu.SetActive(true);
-//                _settingsMenu.SetActive(false);
+                _mainMenu.SetActive(true);
 
                 _launcherMenuButton.SetActive(false);
                 _startGameButton.SetActive(true);
@@ -78,9 +77,7 @@ namespace Com.SoulSki.Game
             }
             else
             {
-                _menu.transform.localScale = new Vector3(0f, 0f);
-//                _menu.SetActive(false);
-//                _settingsMenu.SetActive(false);
+                _mainMenu.transform.localScale = new Vector3(0f, 0f);
 
                 _launcherMenuButton.SetActive(true);
                 _startGameButton.SetActive(false);
@@ -110,9 +107,6 @@ namespace Com.SoulSki.Game
             string msg = show ? "Open" : "Close";
             Debug.Log(msg + " Game Settings menu");
 
-            //Vector3 start = show ? new Vector3(0f, 0f, 0f) : new Vector3(1f, 1f, 1f);
-            //Vector3 end = show ? new Vector3(1f, 1f, 1f) : new Vector3(0f, 0f, 0f);
-
             var scale = GetScale(show);
 
             LeanTween.value(_settingsMenu, scale.start, scale.end, 0.1f).setOnUpdate(
@@ -120,7 +114,6 @@ namespace Com.SoulSki.Game
                 _settingsMenu.transform.localScale = newScale;
                 }
             );
-//            _settingsMenu.SetActive(show);
         }
 
 
@@ -134,10 +127,8 @@ namespace Com.SoulSki.Game
 
             LeanTween.value(_settingsMenu, scale.start, scale.end, 0.1f).setOnUpdate(
             (Vector3 newScale) => {
-                _menu.transform.localScale = newScale;
+                _mainMenu.transform.localScale = newScale;
             });
-
-//            _menu.SetActive(show);
         }
 
         public void QuitToLauncher()

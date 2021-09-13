@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30d7d92f493e5254489d8ee55ff22217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _launcherGO: {fileID: 4009619687784785229, guid: 0f31624de53780a49973983f8ebe19a6,
+  _launcherGO: {fileID: 1314147107098085847, guid: abd766b467d404cd481fa04596b7f828,
     type: 3}
   _tooltipGO: {fileID: 2042353386243480223, guid: 16ca706df74f22948a83dfe7015b5134,
     type: 3}

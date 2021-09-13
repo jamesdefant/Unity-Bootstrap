@@ -28,33 +28,31 @@ namespace Com.SoulSki.UI
             var textGo = new GameObject("Text (TMP)");
             var rectTransform = textGo.AddComponent<RectTransform>();
             textGo.transform.SetParent(go.transform);
-            //var text = textGo.AddComponent<TextMeshProUGUI>();
-            //text.text = "New Button";
+            rectTransform.anchorMin = new Vector2(0f, 0f);
+            rectTransform.anchorMax = new Vector2(1f, 1f);
+            rectTransform.SetAnchoredSize();
+            
 
-            //rectTransform.anchorMin = new Vector2(0f, 0f);
-            //rectTransform.anchorMax = new Vector2(1f, 1f);
-            //rectTransform.anchoredPosition = new Vector2(0f, 0f); 
-
-            // Ensure it gets reparented if this was a context click (otherwise does nothing)
-            //GameObjectUtility.SetParentAndAlign(go, menuCommand.context as GameObject);
+            var text = textGo.AddComponent<TextMeshProUGUI>();
+            text.text = "New Button";
+            text.fontSize = 20f;
+            text.fontStyle = FontStyles.SmallCaps | FontStyles.Bold;
+            //text.fontWeight = FontWeight.Bold;
+            text.color = Color.black;
+            text.alignment = TextAlignmentOptions.Center;
+            text.alignment = TextAlignmentOptions.Capline;
 
             GameObject context = menuCommand.context as GameObject;
-            if (IsChildOfCanvas(context))
+
+            if(context == null || !IsChildOfCanvas(context))
+            {
+                CreateDefaultCanvas(go);
+            }
+            else
             {
                 // Parent this gameobject under the context
                 GameObjectUtility.SetParentAndAlign(go, menuCommand.context as GameObject);
             }
-            else
-            {
-                // Create a Canvas
-                var canvas = new GameObject("Canvas");
-                canvas.AddComponent<CanvasRenderer>();
-                canvas.AddComponent<CanvasScaler>();
-                GameObjectUtility.SetParentAndAlign(go, canvas);
-            }
-
-            var parentGo = menuCommand.context as GameObject;
-            if(parentGo.GetComponent<Canvas>() != null)
 
             // Register the creation in the undo system
             Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
@@ -63,6 +61,10 @@ namespace Com.SoulSki.UI
 
         static bool IsChildOfCanvas(GameObject go)
         {
+            if (!go)
+            {
+                Debug.LogError("IsChildOfCanvas(Gameobject) - go null");
+            }
             // check for canvas
             var canvas = go.GetComponent<Canvas>();
             if (canvas != null)
@@ -74,6 +76,23 @@ namespace Com.SoulSki.UI
 
             // Otherwise there is none
             return false;
+        }
+
+        static void CreateDefaultCanvas(GameObject go)
+        {
+            // Create a Canvas
+            var canvasGo = new GameObject("Canvas");
+
+            var canvas = canvasGo.AddComponent<Canvas>();
+            canvasGo.AddComponent<CanvasRenderer>();
+            var canvasScaler = canvasGo.AddComponent<CanvasScaler>();
+            GameObjectUtility.SetParentAndAlign(go, canvasGo);
+
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            canvasScaler.referenceResolution = new Vector2(1920f, 1080f);
+
+            Undo.RegisterCreatedObjectUndo(canvasGo, "Create " + canvasGo.name);
         }
     }
 }

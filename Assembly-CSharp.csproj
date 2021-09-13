@@ -87,6 +87,7 @@
     <Compile Include="Assets/LeanTween/Framework/LeanTween.cs" />
     <Compile Include="Assets/LeanTween/Framework/LeanTweenExt.cs" />
     <Compile Include="Assets/_Scripts/CanvasLoader.cs" />
+    <Compile Include="Assets/_Scripts/Common/RectTransformExtensions.cs" />
     <Compile Include="Assets/_Scripts/Listener.cs" />
     <Compile Include="Assets/_Scripts/MultiplayerGameManager.cs" />
     <Compile Include="Assets/_Scripts/PlayerManager.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Assets/_Scripts/UI/TooltipSystem.cs" />
     <Compile Include="Assets/_Scripts/UI/TooltipTrigger.cs" />
     <Compile Include="Assets/_Scripts/UI/UI_Appearance.cs" />
+    <Compile Include="Assets/_Scripts/UI/UI_Controller.cs" />
     <Compile Include="Assets/_Scripts/UI_SFX.cs" />
   </ItemGroup>
   <ItemGroup>
