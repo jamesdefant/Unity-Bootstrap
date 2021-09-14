@@ -10,7 +10,7 @@ namespace Com.SoulSki.UI
         void SetText(string content, string header = "");
     }
 
-    [ExecuteInEditMode()]
+    //[ExecuteInEditMode()]
     public class Tooltip : MonoBehaviour, ITooltip
     {
         #region Fields
@@ -32,9 +32,10 @@ namespace Com.SoulSki.UI
         {
             _rectTransform = GetComponent<RectTransform>();
         }
-        public void Initialize(Color backgroundColor, Color textColor)
+        public void Initialize(TooltipAppearance appearance)
         {
             _rectTransform = GetComponent<RectTransform>();
+
         }
 
 

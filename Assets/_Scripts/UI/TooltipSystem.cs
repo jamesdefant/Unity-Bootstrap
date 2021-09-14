@@ -4,12 +4,13 @@ namespace Com.SoulSki.UI
 {
     public class TooltipSystem : MonoBehaviour
     {
+        [SerializeField] float _delayTime = 1f;
         [SerializeField] float _fadeInTime = 0.2f;
         [SerializeField] float _fadeOutTime = 0.1f;
-        //[SerializeField] Tooltip _tooltipReference;
         [SerializeField] CanvasGroup _canvasGroup;
 
         private static TooltipSystem _current;
+        private static LTDescr _delay;
 
         ITooltip _tooltip;
 
@@ -17,7 +18,6 @@ namespace Com.SoulSki.UI
         private void Awake()
         {
             _current = this;
-            //_canvasGroup = GetComponent<CanvasGroup>();
             _tooltip = _canvasGroup.GetComponentInChildren<Tooltip>();
             _tooltip.Initialize();
         }
@@ -29,9 +29,11 @@ namespace Com.SoulSki.UI
         /// <param name="header">Header.</param>
         public static void Show(string content, string header = "")
         {
-            _current._tooltip.SetText(content, header);
-
-            LeanTween.alphaCanvas(_current._canvasGroup, 1, _current._fadeInTime);
+            _delay = LeanTween.delayedCall(_current._delayTime, () =>
+            {
+                _current._tooltip.SetText(content, header);
+                LeanTween.alphaCanvas(_current._canvasGroup, 1, _current._fadeInTime);
+            });
         }
 
         /// <summary>
@@ -39,6 +41,8 @@ namespace Com.SoulSki.UI
         /// </summary>
         public static void Hide()
         {
+            if(_delay != null)
+                LeanTween.cancel(_delay.uniqueId);
             LeanTween.alphaCanvas(_current._canvasGroup, 0, _current._fadeOutTime);
         }
 
@@ -47,6 +51,8 @@ namespace Com.SoulSki.UI
         /// </summary>
         public static void HideImmediate()
         {
+            if (_delay != null)
+                LeanTween.cancel(_delay.uniqueId);
             _current._canvasGroup.alpha = 0;
         }
     }

@@ -65,12 +65,13 @@ namespace Com.SoulSki.Game
             _gameManager = _gameManagerReference;
             _modalWindow = GetComponent<ModalWindow>();
 
+            _mainMenuBlocker.SetActive(true);
             _settingsMenu.transform.localScale = new Vector3(0f, 0f);
             _modalWindowBlocker.SetActive(false);
 
             if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName(LAUNCHER_SCENE))
             {
-                _mainMenuBlocker.SetActive(true);
+
 
                 _launcherMenuButton.SetActive(false);
                 _startGameButton.SetActive(true);
@@ -107,8 +108,8 @@ namespace Com.SoulSki.Game
         {
             TooltipSystem.HideImmediate();
 
-            string msg = show ? "Open" : "Close";
-            Debug.Log(msg + " Game Settings menu");
+            //string msg = show ? "Open" : "Close";
+            //Debug.Log(msg + " Game Settings menu");
 
             var scale = GetScale(show);
 
@@ -127,8 +128,8 @@ namespace Com.SoulSki.Game
         {
             TooltipSystem.HideImmediate();
 
-            string msg = show ? "Open" : "Close";
-            Debug.Log(msg + " Launcher menu");
+            //string msg = show ? "Open" : "Close";
+            //Debug.Log(msg + " Launcher menu");
 
             var (start, end) = GetScale(show);
 
