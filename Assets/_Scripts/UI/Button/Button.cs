@@ -185,14 +185,22 @@ namespace Com.SoulSki.UI
                 _isSelected = true;
             }
         }
-        public void DeSelect()
+        public void Deselect()
         {
             if (_interactable)
             {
-                StartCoroutine(ChangeToColor(_normalColor));
-                if (_isTextColorUnique)
-                    StartCoroutine(ChangeTextColor(_normalTextColor));
-
+                if (gameObject.activeInHierarchy)
+                {
+                    StartCoroutine(ChangeToColor(_normalColor));
+                    if (_isTextColorUnique)
+                        StartCoroutine(ChangeTextColor(_normalTextColor));
+                }
+                else
+                {
+                    Awake();
+                    _image.color = _normalColor;
+                    _text.color = _normalTextColor;
+                }
                 _isSelected = false;
             }
         }

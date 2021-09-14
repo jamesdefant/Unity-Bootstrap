@@ -41,7 +41,7 @@ namespace Com.SoulSki.Game
         [SerializeField] MultiplayerGameManager _gameManagerReference;
         IGameManager _gameManager;
 
-        ModalWindow _modalWindow;
+        IModalWindow _modalWindow;
 
         public static ILauncher Instance;
 
@@ -50,7 +50,7 @@ namespace Com.SoulSki.Game
         #region Properties
         //-----------------------------------------------
 
-        public ModalWindow ModalWindow => _modalWindow;
+        public IModalWindow ModalWindow => _modalWindow;
 
         #endregion
 
@@ -105,6 +105,8 @@ namespace Com.SoulSki.Game
 
         public void ToggleSettingsPanel(bool show)
         {
+            TooltipSystem.HideImmediate();
+
             string msg = show ? "Open" : "Close";
             Debug.Log(msg + " Game Settings menu");
 
@@ -115,12 +117,16 @@ namespace Com.SoulSki.Game
                 _settingsMenu.transform.localScale = newScale;
                 }
             );
+
+            //TogglePanel(_settingsMenu.transform, show);
         }
 
 
 
         public void ToggleLauncherPanel(bool show)
         {
+            TooltipSystem.HideImmediate();
+
             string msg = show ? "Open" : "Close";
             Debug.Log(msg + " Launcher menu");
 
@@ -130,24 +136,41 @@ namespace Com.SoulSki.Game
             (Vector3 newScale) => {
                 _mainMenuBlocker.transform.localScale = newScale;
             });
+
+            //TogglePanel(_mainMenuBlocker.transform, show);
         }
 
         public void QuitToLauncher()
         {
-            ChangeScene(LAUNCHER_SCENE);
+            TooltipSystem.HideImmediate();
+            _modalWindow.ShowAsDialog("Quit to Launcher",
+                "Do you want to quit the current game?", "Yes", "No", 
+                ChangeToLauncherScene, null);              
         }
+
         public void QuitToDesktop()
         {
-            UnityEditor.EditorApplication.isPlaying = false;
+            TooltipSystem.HideImmediate();
+            _modalWindow.ShowAsDialog("Quit to Desktop",
+                "Do you want to quit to the desktop?", "Yes", "No",
+                Quit, null);
         }
 
         #endregion
 
         #region Private Methods
         //-----------------------------------------------
-
+        void Quit()
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+        }
+        void ChangeToLauncherScene()
+        {
+            ChangeScene(LAUNCHER_SCENE);
+        }
         void ChangeScene(string sceneName)
         {
+            TooltipSystem.HideImmediate();
             string scenePath = "Assets/Scenes/" + sceneName + ".unity";
 
             //Debug.AssertFormat(SceneUtility.GetBuildIndexByScenePath(scenePath) != -1,
@@ -161,6 +184,19 @@ namespace Com.SoulSki.Game
             else
                 SceneManager.LoadScene(sceneName);
         }
+
+        //void TogglePanel(Transform panelTransform, bool show)
+        //{
+        //    string msg = show ? "Open" : "Close";
+        //    Debug.Log(msg + panelTransform.gameObject.name);
+
+        //    var (start, end) = GetScale(show);
+
+        //    LeanTween.value(_settingsMenu, start, end, 0.1f).setOnUpdate(
+        //    (Vector3 newScale) => {
+        //        transform.localScale = newScale;
+        //    });
+        //}
 
         (Vector3 start, Vector3 end) GetScale(bool show)
         {

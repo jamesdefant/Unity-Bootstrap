@@ -8,13 +8,13 @@ namespace Com.SoulSki.UI
     public class CanvasLoader : MonoBehaviour
     {
         [SerializeField] GameObject _launcherGO;
-        [SerializeField] GameObject _tooltipGO;
+        //[SerializeField] GameObject _tooltipGO;
          
 
         private void Awake()
         {
             Instantiate(_launcherGO);
-            Instantiate(_tooltipGO);
+            //Instantiate(_tooltipGO);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Com.SoulSki.UI
 
             Button btn = _tabs[index];
             if(_selectedTab != null)
-                _selectedTab.DeSelect();
+                _selectedTab.Deselect();
 
             _selectedTab = btn;
             btn.Select();
