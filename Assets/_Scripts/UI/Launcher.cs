@@ -1,4 +1,5 @@
 ﻿using Com.SoulSki.UI;
+using System.Collections;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -35,6 +36,8 @@ namespace Com.SoulSki.Game
         [SerializeField] GameObject _settingsButton;
         [SerializeField] GameObject _quitToLauncherButton;
         [SerializeField] GameObject _cancelButton;
+
+        [SerializeField] float _panelZoomDuration = 0.1f;
 
         //[SerializeField] VoidEvent _evt_initializeGame;
 
@@ -110,7 +113,7 @@ namespace Com.SoulSki.Game
 
             //string msg = show ? "Open" : "Close";
             //Debug.Log(msg + " Game Settings menu");
-
+/*
             var scale = GetScale(show);
 
             LeanTween.value(_settingsMenu, scale.start, scale.end, 0.1f).setOnUpdate(
@@ -118,8 +121,8 @@ namespace Com.SoulSki.Game
                 _settingsMenu.transform.localScale = newScale;
                 }
             );
-
-            //TogglePanel(_settingsMenu.transform, show);
+*/
+            TogglePanel(_settingsMenu.transform, show);
         }
 
 
@@ -130,15 +133,15 @@ namespace Com.SoulSki.Game
 
             //string msg = show ? "Open" : "Close";
             //Debug.Log(msg + " Launcher menu");
-
+/*
             var (start, end) = GetScale(show);
 
             LeanTween.value(_settingsMenu, start, end, 0.1f).setOnUpdate(
             (Vector3 newScale) => {
                 _mainMenuBlocker.transform.localScale = newScale;
             });
-
-            //TogglePanel(_mainMenuBlocker.transform, show);
+*/
+            TogglePanel(_mainMenuBlocker.transform, show);
         }
 
         public void QuitToLauncher()
@@ -186,18 +189,37 @@ namespace Com.SoulSki.Game
                 SceneManager.LoadScene(sceneName);
         }
 
-        //void TogglePanel(Transform panelTransform, bool show)
-        //{
-        //    string msg = show ? "Open" : "Close";
-        //    Debug.Log(msg + panelTransform.gameObject.name);
+        void TogglePanel(Transform panelTransform, bool show)
+        {
+            StartCoroutine(ChangeScale(panelTransform, show));
+            //string msg = show ? "Open" : "Close";
+            //Debug.Log(msg + panelTransform.gameObject.name);
+/*
+            var (start, end) = GetScale(show);
 
-        //    var (start, end) = GetScale(show);
+            LeanTween.value(_settingsMenu, start, end, 0.1f).setOnUpdate(
+            (Vector3 newScale) =>
+            {
+                panelTransform.localScale = newScale;
+            });
+*/
+        }
 
-        //    LeanTween.value(_settingsMenu, start, end, 0.1f).setOnUpdate(
-        //    (Vector3 newScale) => {
-        //        transform.localScale = newScale;
-        //    });
-        //}
+        IEnumerator ChangeScale(Transform panelTransform, bool show)
+        {
+            var (start, end) = GetScale(show);
+
+            float elapsedTime = 0f;
+
+            while (elapsedTime < _panelZoomDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                panelTransform.localScale = Vector3.Lerp(start, end, elapsedTime / _panelZoomDuration);
+
+                //_image.color = Color.Lerp(oldColor, newColor, elapsedTime / _fadeDuration);
+                yield return null;
+            }
+        }
 
         (Vector3 start, Vector3 end) GetScale(bool show)
         {
