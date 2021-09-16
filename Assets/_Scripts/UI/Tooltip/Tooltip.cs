@@ -7,6 +7,7 @@ namespace Com.SoulSki.UI
     public interface ITooltip
     {
         void Initialize();
+        void Initialize(TooltipAppearance appearance);
         void SetText(string content, string header = "");
     }
 
@@ -36,6 +37,27 @@ namespace Com.SoulSki.UI
         {
             _rectTransform = GetComponent<RectTransform>();
 
+            // set border
+            var verticalLayoutGroup = GetComponent<VerticalLayoutGroup>();
+            verticalLayoutGroup.padding = new RectOffset(appearance.BorderSize, appearance.BorderSize, appearance.BorderSize, appearance.BorderSize);
+            GetComponent<Image>().color = appearance.BorderColor;
+
+            // set background
+            var background = transform.Find("Background").GetComponent<Image>();
+            background.color = appearance.BackgroundColor;
+
+            // set header
+            var headerText = background.transform.Find("Header").GetComponent<TextMeshProUGUI>();
+            headerText.fontSize = appearance.HeaderFontSize;
+            headerText.color = appearance.TextColor;
+            if (appearance.Font)
+                headerText.font = appearance.Font;
+
+            var contentText = background.transform.Find("Content").GetComponent<TextMeshProUGUI>();
+            contentText.fontSize = appearance.ContentFontSize;
+            contentText.color = appearance.TextColor;
+            if (appearance.Font)
+                contentText.font = appearance.Font;
         }
 
 
@@ -120,28 +142,5 @@ namespace Com.SoulSki.UI
         }
 
         #endregion
-    }
-
-    public class TooltipAppearance
-    {
-        public Font Font { get; private set; }
-        public int HeaderFontSize { get; private set; }
-        public int ContentFontSize { get; private set; }
-        public Color BackgroundColor { get; private set; }
-        public Color TextColor { get; private set; }
-
-        public TooltipAppearance(
-            Font font
-            , int headerFontSize
-            , int contentFontSize
-            , Color backgroundColor
-            , Color textColor)
-        {
-            Font = font;
-            HeaderFontSize = headerFontSize;
-            ContentFontSize = contentFontSize;
-            BackgroundColor = backgroundColor;
-            TextColor = textColor;
-        }
     }
 }

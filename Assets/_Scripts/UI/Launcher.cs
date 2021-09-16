@@ -191,6 +191,10 @@ namespace Com.SoulSki.Game
 
         void TogglePanel(Transform panelTransform, bool show)
         {
+            //var (start, end) = GetScale(show);
+
+            //LeanTween.scale(panelTransform.gameObject, end, _panelZoomDuration);
+
             StartCoroutine(ChangeScale(panelTransform, show));
             //string msg = show ? "Open" : "Close";
             //Debug.Log(msg + panelTransform.gameObject.name);

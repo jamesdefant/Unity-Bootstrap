@@ -8,6 +8,7 @@ namespace Com.SoulSki.UI
         [SerializeField] float _fadeInTime = 0.2f;
         [SerializeField] float _fadeOutTime = 0.1f;
         [SerializeField] CanvasGroup _canvasGroup;
+        [SerializeField] TooltipAppearance _appearance;
 
         private static TooltipSystem _current;
         private static LTDescr _delay;
@@ -19,7 +20,10 @@ namespace Com.SoulSki.UI
         {
             _current = this;
             _tooltip = _canvasGroup.GetComponentInChildren<Tooltip>();
-            _tooltip.Initialize();
+            if (_appearance)
+                _tooltip.Initialize(_appearance);
+            else
+                _tooltip.Initialize();
         }
 
         /// <summary>
