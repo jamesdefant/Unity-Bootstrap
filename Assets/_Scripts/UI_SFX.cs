@@ -6,6 +6,8 @@ namespace Com.SoulSki.SFX
     {
         AudioSource _audioSource;
         [SerializeField] AudioClip _mouseOverButtonClip;
+        [Range(0f, 1.0f)]
+        [SerializeField] float _mouseOverButtonVolume = 0.3f;
 
         private void Awake()
         {
@@ -13,7 +15,7 @@ namespace Com.SoulSki.SFX
         }
         public void PlayMouserOverButton()
         {
-            _audioSource.PlayOneShot(_mouseOverButtonClip, 0.3f);
+            _audioSource.PlayOneShot(_mouseOverButtonClip, _mouseOverButtonVolume);
         }
     }
 }
