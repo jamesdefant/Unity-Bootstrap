@@ -2,17 +2,19 @@
 
 namespace Com.SoulSki.SFX
 {
-    public class UI_SFX : MonoBehaviour
+    [CreateAssetMenu(menuName = "SoulSki/Audio/UI_SFX")]
+    public class UI_SFX : ScriptableObject
     {
         AudioSource _audioSource;
         [SerializeField] AudioClip _mouseOverButtonClip;
         [Range(0f, 1.0f)]
         [SerializeField] float _mouseOverButtonVolume = 0.3f;
 
-        private void Awake()
+        public void RegisterAudioSource(AudioSource audioSource)
         {
-            _audioSource = GetComponent<AudioSource>();
+            _audioSource = audioSource;
         }
+
         public void PlayMouserOverButton()
         {
             _audioSource.PlayOneShot(_mouseOverButtonClip, _mouseOverButtonVolume);
