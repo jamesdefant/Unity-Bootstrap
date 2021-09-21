@@ -9,7 +9,9 @@ namespace Com.SoulSki.SFX
 
         private void Awake()
         {
-            _uI_SFX.RegisterAudioSource(GetComponent<AudioSource>());
+            var audioSource = GetComponent<AudioSource>();
+
+            _uI_SFX.RegisterAudioSource(audioSource);
         }
 
         public void PlayMouserOverButton()

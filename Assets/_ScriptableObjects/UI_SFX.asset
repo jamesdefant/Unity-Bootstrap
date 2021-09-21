@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d7c85e0b2d7544438ed6d0a85c34b95, type: 3}
   m_Name: UI_SFX
   m_EditorClassIdentifier: 
-  _mouseOverButtonClip: {fileID: 0}
+  _mouseOverButtonClip: {fileID: 8300000, guid: 085974cebed9459459b18c2fc0f3b6ac,
+    type: 3}
   _mouseOverButtonVolume: 0.3

@@ -28,8 +28,10 @@ namespace Com.SoulSki.Game
         //-----------------------------------------------
 
         [SerializeField] GameObject _mainMenuBlocker;       // Menu parent
+        GameObject _mainMenuPanel;
         [SerializeField] GameObject _settingsMenu;
         [SerializeField] GameObject _modalWindowBlocker;
+        GameObject _modalWindowPanel;
 
         [SerializeField] GameObject _launcherMenuButton;
         [SerializeField] GameObject _startGameButton;
@@ -68,6 +70,7 @@ namespace Com.SoulSki.Game
             _gameManager = _gameManagerReference;
             _modalWindow = GetComponent<ModalWindow>();
 
+            _mainMenuPanel = _mainMenuBlocker.transform.GetChild(0).gameObject;
             _mainMenuBlocker.SetActive(true);
             _settingsMenu.transform.localScale = new Vector3(0f, 0f);
             _modalWindowBlocker.SetActive(false);
@@ -111,17 +114,6 @@ namespace Com.SoulSki.Game
         {
             TooltipSystem.HideImmediate();
 
-            //string msg = show ? "Open" : "Close";
-            //Debug.Log(msg + " Game Settings menu");
-/*
-            var scale = GetScale(show);
-
-            LeanTween.value(_settingsMenu, scale.start, scale.end, 0.1f).setOnUpdate(
-            (Vector3 newScale) => {
-                _settingsMenu.transform.localScale = newScale;
-                }
-            );
-*/
             TogglePanel(_settingsMenu.transform, show);
         }
 
@@ -130,17 +122,12 @@ namespace Com.SoulSki.Game
         public void ToggleLauncherPanel(bool show)
         {
             TooltipSystem.HideImmediate();
+            string msg = show ? "Show" : "Hide";
+            Debug.Log(msg + " Launcher Panel");
 
-            //string msg = show ? "Open" : "Close";
-            //Debug.Log(msg + " Launcher menu");
-/*
-            var (start, end) = GetScale(show);
+            //_mainMenuBlocker.SetActive(show);
+            //TogglePanel(_mainMenuPanel.transform, show);
 
-            LeanTween.value(_settingsMenu, start, end, 0.1f).setOnUpdate(
-            (Vector3 newScale) => {
-                _mainMenuBlocker.transform.localScale = newScale;
-            });
-*/
             TogglePanel(_mainMenuBlocker.transform, show);
         }
 
