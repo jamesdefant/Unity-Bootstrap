@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 7248959979860948973}
   - component: {fileID: 8242588628077709328}
   - component: {fileID: 710621601854169437}
+  - component: {fileID: 7862590141316208685}
   m_Layer: 5
-  m_Name: Blocker
+  m_Name: Panel (Blocker)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,3 +75,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7862590141316208685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4203196762674927859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f9cae58ec71f4e35a18f5fdc233872c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

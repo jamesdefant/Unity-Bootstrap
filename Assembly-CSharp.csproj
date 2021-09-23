@@ -90,6 +90,7 @@
     <Compile Include="Assets/_Scripts/Audio/SFXSource.cs" />
     <Compile Include="Assets/_Scripts/Audio/UI_SFX.cs" />
     <Compile Include="Assets/_Scripts/Common/RectTransformExtensions.cs" />
+    <Compile Include="Assets/_Scripts/Common/Vector2Int.cs" />
     <Compile Include="Assets/_Scripts/MultiplayerGameManager.cs" />
     <Compile Include="Assets/_Scripts/PlayerManager.cs" />
     <Compile Include="Assets/_Scripts/SingletonScriptableObject.cs" />
@@ -98,6 +99,11 @@
     <Compile Include="Assets/_Scripts/UI/Button/ButtonGameObject.cs" />
     <Compile Include="Assets/_Scripts/UI/CanvasLoader.cs" />
     <Compile Include="Assets/_Scripts/UI/CustomButton.cs" />
+    <Compile Include="Assets/_Scripts/UI/CustomPanel/UI_Background.cs" />
+    <Compile Include="Assets/_Scripts/UI/CustomPanel/UI_Blocker.cs" />
+    <Compile Include="Assets/_Scripts/UI/CustomPanel/UI_Border.cs" />
+    <Compile Include="Assets/_Scripts/UI/CustomPanel/UI_Button.cs" />
+    <Compile Include="Assets/_Scripts/UI/CustomPanel/UI_Component.cs" />
     <Compile Include="Assets/_Scripts/UI/Input.cs" />
     <Compile Include="Assets/_Scripts/UI/Launcher.cs" />
     <Compile Include="Assets/_Scripts/UI/ModalWindow.cs" />

@@ -7,6 +7,15 @@ using TMPro;
 
 namespace Com.SoulSki.UI
 {
+    public enum ButtonState
+    {
+        NORMAL,
+        HIGHLIGHTED,
+        PRESSED,
+        SELECTED,
+        DISABLED
+    }
+
     [ExecuteInEditMode]
     [AddComponentMenu("SoulSki_UI/Button")]
     public class Button : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, 
@@ -34,6 +43,8 @@ namespace Com.SoulSki.UI
         [SerializeField] UnityEvent _onClick;
         [SerializeField] UnityEvent _onMouseEnter;
 
+        ButtonState _buttonState = ButtonState.NORMAL;
+
         bool _isSelected;
         Image _image;
         TextMeshProUGUI _text;
@@ -50,45 +61,82 @@ namespace Com.SoulSki.UI
             get => _interactable;
             set 
             {
-                _image.color = (value == false) ? _disabledColor : _normalColor;
+                if (value == false)
+                {
+                    _buttonState = ButtonState.DISABLED;
+                }
+                _image.color = GetColorFromState();
                 _interactable = value;
             }
         }
         public Color NormalColor
         {
             get => _normalColor;
-            set => _normalColor = value;
+            set
+            {
+                _normalColor = value;
+                _image.color = _normalColor;
+            }
         }
         public Color HighlightedColor
         {
             get => _highlightedColor;
-            set => _highlightedColor = value;
+            set
+            {
+                _highlightedColor = value;
+                _image.color = _highlightedColor;
+            }
         }
         public Color PressedColor
         {
             get => _pressedColor;
-            set => _pressedColor = value;
+            set
+            {
+                _pressedColor = value;
+                _image.color = _pressedColor;
+            }
         }
         public Color SelectedColor
         {
             get => _selectedColor;
-            set => _selectedColor = value;
+            set
+            {
+                _selectedColor = value;
+                _image.color = _selectedColor;
+            }
         }
         public Color DisabledColor
         {
             get => _disabledColor;
-            set => _disabledColor = value;
+            set
+            {
+                _disabledColor = value;
+                _image.color = _disabledColor;
+            }
         }
 
         public Color NormalTextColor
         {
             get => _normalTextColor;
-            set => _normalTextColor = value;
+            set
+            {
+                _normalTextColor = value;
+                _text.color = _normalTextColor;
+            }
         }
         public Color SelectedTextColor
         {
             get => _selectedTextColor;
-            set => _selectedTextColor = value;
+            set
+            {
+                _selectedTextColor = value;
+                //_text.color = _selectedTextColor;
+            }
+        }
+        public float FadeDuration
+        {
+            get => _fadeDuration;
+            set => _fadeDuration = value;
         }
         #endregion
 
@@ -102,17 +150,18 @@ namespace Com.SoulSki.UI
             _image.color = _normalColor;
 
             _isTextColorUnique = _normalTextColor != _selectedTextColor;
-            
         }
 
 #if UNITY_EDITOR
 
         void LateUpdate()
         {
-            if (!_interactable)
-            {
-                _image.color = _disabledColor;
-            }
+            _image.color = GetColorFromState();
+
+            //if (!_interactable)
+            //{
+            //    _image.color = _disabledColor;
+            //}
 /*
             else
             {
@@ -152,8 +201,10 @@ namespace Com.SoulSki.UI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (_interactable && !_isSelected)
+            if (_interactable)
             {
+                _buttonState = ButtonState.HIGHLIGHTED;
+
                 StartCoroutine(ChangeToColor(_highlightedColor));
 
                 // Callback
@@ -163,8 +214,10 @@ namespace Com.SoulSki.UI
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (_interactable && !_isSelected)
+            if (_interactable)
             {
+                _buttonState = ButtonState.NORMAL;
+
                 StartCoroutine(ChangeToColor(_normalColor));
             }
         }
@@ -178,6 +231,8 @@ namespace Com.SoulSki.UI
         {
             if (_interactable)
             {
+                //_buttonState = ButtonState.SELECTED;
+
                 StartCoroutine(ChangeToColor(_selectedColor));
                 if(_isTextColorUnique)
                     StartCoroutine(ChangeTextColor(_selectedTextColor));
@@ -189,6 +244,8 @@ namespace Com.SoulSki.UI
         {
             if (_interactable)
             {
+                _buttonState = ButtonState.NORMAL;
+
                 if (gameObject.activeInHierarchy)
                 {
                     StartCoroutine(ChangeToColor(_normalColor));
@@ -255,6 +312,23 @@ namespace Com.SoulSki.UI
             }
         }
 
+        Color GetColorFromState()
+        {
+            switch (_buttonState)
+            {
+                default:
+                case ButtonState.NORMAL:
+                    return _normalColor;
+                case ButtonState.HIGHLIGHTED:
+                    return _highlightedColor;
+                case ButtonState.PRESSED:
+                    return _pressedColor;
+                case ButtonState.SELECTED:
+                    return _selectedColor;
+                case ButtonState.DISABLED:
+                    return _disabledColor;
+            }
+        }
         #endregion
     }
 }
