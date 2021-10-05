@@ -12,12 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d2f9b0b9de74c71ade7872c425d960, type: 3}
   m_Name: UI_Styles
   m_EditorClassIdentifier: 
+  _updateLive: 1
   _blockerColor: {r: 0, g: 0, b: 0, a: 0.3137255}
-  _panelBorderWidth: 3
+  _panelBorderWidth: 5
   _panelBorderColor: {r: 1, g: 1, b: 1, a: 1}
-  _panelBGColor: {r: 0.16278034, g: 0.16278034, b: 0.5849056, a: 1}
+  _panelBGColor: {r: 0.086863644, g: 0.086863644, b: 0.3018868, a: 1}
+  _panelPadding: {x: 25, y: 31}
+  _panelSpacingVertical: 22
+  _panelSpacingHorizontal: 31
+  _textColor: {r: 0, g: 0, b: 0, a: 1}
+  _textBGColor: {r: 1, g: 1, b: 1, a: 1}
+  _textFontSize: 17.54
+  _textPadding: {x: 6, y: 0}
+  _textMenuHeaderFontSize: 26
+  _textMenuHeaderPadding: {x: 0, y: 0}
+  _buttonFontSize: 20.5
   _buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
   _buttonSelectedTextColor: {r: 0, g: 0, b: 0, a: 1}
+  _buttonPadding: {x: 23, y: 14}
+  _buttonSpacingVertical: 0
+  _buttonSpacingHorizontal: 0
   _buttonColorBlock:
     m_NormalColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     m_HighlightedColor: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}

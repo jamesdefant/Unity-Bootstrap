@@ -15,7 +15,6 @@ namespace Com.SoulSki.UI
             _button = GetComponent<Button>();
             _text = GetComponentInChildren<TextMeshProUGUI>();
             _vertLayoutGroup = GetComponent<VerticalLayoutGroup>();
-            _parentVertLayoutGroup = transform.parent.GetComponent<VerticalLayoutGroup>();
         }
 
         protected override void SetValues()
@@ -24,9 +23,9 @@ namespace Com.SoulSki.UI
             _button.NormalTextColor = UI_Styles.Instance.ButtonTextColor;
             _button.SelectedTextColor = UI_Styles.Instance.ButtonSelectedTextColor;
 
-            (RectOffset padding, int spacing) = UI_Styles.GetPadding(UI_Styles.Instance.ButtonPadding);
+            RectOffset padding = UI_Styles.GetPadding(UI_Styles.Instance.ButtonPadding);
             _vertLayoutGroup.padding = padding;
-            _parentVertLayoutGroup.spacing = spacing;
+           
 
 
             ColorBlock colorBlock = UI_Styles.Instance.ButtonColorBlock;

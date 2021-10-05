@@ -12,9 +12,9 @@ public abstract class UI_Component : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    private void FixedUpdate()
+    private void Update()
     {
-        if(UI_Styles.Instance.UpdateLive)
+        if(UI_Styles.Instance.UpdateLive || Application.isEditor)
             SetValues();
     }
 #endif

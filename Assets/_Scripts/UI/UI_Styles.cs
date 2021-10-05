@@ -11,28 +11,32 @@ namespace Com.SoulSki.UI
     public class UI_Styles : SingletonScriptableObject<UI_Styles>
     {
         [SerializeField] bool _updateLive = true;
-        public bool UpdateLive => _updateLive;
 
         [Header("Blocker")]
         [SerializeField] Color _blockerColor;
-        public Color BlockerColor => _blockerColor;
-
 
         [Header("Panel")]
         [Range(0f, 50f)]
         [SerializeField] int _panelBorderWidth = 5;
-        public int PanelBorderWidth => _panelBorderWidth;
-
         [SerializeField] Color _panelBorderColor = Color.white;
-        public Color PanelBorderColor => _panelBorderColor;
-        //[SerializeField] float _panelBorderMargin;
-
         [SerializeField] Color _panelBGColor = Color.blue;
-        public Color PanelBGColor => _panelBGColor;
+        [Space()]
+        [SerializeField] Vector2Int _panelPadding;
+        [SerializeField] int _panelSpacingVertical = 20;
+        [SerializeField] int _panelSpacingHorizontal = 20;
 
-        //[Header("Text")]
-        //[SerializeField] Color _panelTextColor = Color.black;
-        //[SerializeField] Color _panelTextBGColor = Color.white;
+        [Header("Text")]
+        [SerializeField] Color _textColor = Color.black;
+        [SerializeField] Color _textBGColor = Color.white;
+        [SerializeField] float _textFontSize = 18f;
+        [SerializeField] Vector2Int _textPadding;
+        [Header("TextHeader")]
+        [SerializeField] float _textHeaderFontSize = 26f;
+        [SerializeField] Vector2Int _textHeaderPadding;
+        [SerializeField] float _textMenuHeaderFontSize = 26f;
+        [SerializeField] Vector2Int _textMenuHeaderPadding;
+        //[Header("Text Header")]
+
         //[SerializeField] int _h1 = 40;
         //[SerializeField] int _h2 = 33;
         //[SerializeField] int _h3 = 28;
@@ -43,32 +47,67 @@ namespace Com.SoulSki.UI
 
         [Header("Buttons")]
         [Range(10f, 60f)]
-        [SerializeField] float _buttonFontSize;
-        public float ButtonFontSize => _buttonFontSize;
-        [SerializeField] Color _buttonTextColor;
-        public Color ButtonTextColor => _buttonTextColor;
+        [SerializeField] float _buttonFontSize = 23.7f;
+        [SerializeField] Color _buttonTextColor = Color.black;
         [SerializeField] Color _buttonSelectedTextColor;
-        public Color ButtonSelectedTextColor => _buttonSelectedTextColor;
-        [SerializeField] Vector3Int _buttonPadding;
-        public Vector3Int ButtonPadding => _buttonPadding;
+        [Space()]
+        [SerializeField] Vector2Int _buttonPadding;
+        [SerializeField] int _buttonSpacingVertical = 20;
+        [SerializeField] int _buttonSpacingHorizontal = 20;
         [Space()]
         [SerializeField] ColorBlock _buttonColorBlock;
-        public ColorBlock ButtonColorBlock => _buttonColorBlock;
+
 
 
         //[SerializeField] int _p = 16;
+
+
+        #region Properties
+        //-----------------------------------------------
+
+        public bool UpdateLive => _updateLive;
+
+        public Color BlockerColor => _blockerColor;
+
+        public int PanelBorderWidth => _panelBorderWidth;
+        public Color PanelBorderColor => _panelBorderColor;
+        public Color PanelBGColor => _panelBGColor;
+        public Vector2Int PanelPadding => _panelPadding;
+        public int PanelSpacingVertical => _panelSpacingVertical;
+        public int PanelSpacingHorizontal => _panelSpacingHorizontal;
+
+        public Color TextColor => _textColor;
+        public Color TextBGColor => _textBGColor;
+        public float TextFontSize => _textFontSize;
+        public Vector2Int TextPadding => _textPadding;
+
+        public float TextHeaderFontSize => _textHeaderFontSize;
+        public Vector2Int TextHeaderPadding => _textHeaderPadding;
+
+        public float TextMenuHeaderFontSize => _textMenuHeaderFontSize;
+        public Vector2Int TextMenuHeaderPadding => _textMenuHeaderPadding;
+
+        public float ButtonFontSize => _buttonFontSize;
+        public Color ButtonTextColor => _buttonTextColor;
+        public Color ButtonSelectedTextColor => _buttonSelectedTextColor;
+        public Vector2Int ButtonPadding => _buttonPadding;
+        public int ButtonSpacingVertical => _buttonSpacingVertical;
+        public int ButtonSpacingHorizontal => _buttonSpacingHorizontal;
+        public ColorBlock ButtonColorBlock => _buttonColorBlock;
+
+        #endregion
 
 
         public static RectOffset GetPadding(int value)
         {
             return new RectOffset(value, value, value, value);
         }
-        public static (RectOffset padding, int spacing) GetPadding(Vector3Int value)
+        public static RectOffset GetPadding(Vector2Int value)
         {
             //RectOffset padding = new RectOffset(value.x, value.x, value.y, value.y);
             //int spacing = value.z;
 
-            return (new RectOffset(value.x, value.x, value.y, value.y), value.z);
+            return new RectOffset(value.x, value.x, value.y, value.y);
             //return (padding, spacing);
         }
     }
